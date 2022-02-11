@@ -17,13 +17,14 @@ public class RacingCar extends Application {
     @Override
     public void start(Stage primaryStage) {
        
-        CarPane car= new CarPane();
+        CarPane car= new CarPane(0,120);
+        
         car.setOnMousePressed(e->{
-            car.Pause();
+            car.pause();
             
         });
         car.setOnMouseReleased(e->{
-            car.Start();
+            car.play();
             
         });
         car.setOnKeyPressed(e -> {
@@ -33,12 +34,15 @@ public class RacingCar extends Application {
             else if (e.getCode() == KeyCode.DOWN) {
                 car.Decrease();
             }
+            else if (e.getCode() == KeyCode.SPACE) {
+                car.Jump();
+            }
 			
 	});
         Scene scene = new Scene(car, 500, 120);
         primaryStage.setTitle("CarLab2");
         primaryStage.setScene(scene);
-        primaryStage.show();
+    primaryStage.show();
         car.requestFocus();
     }
     public static void main(String[] args) {

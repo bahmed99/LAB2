@@ -5,6 +5,7 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.scene.shape.*;
 import javafx.util.Duration;
 
@@ -16,13 +17,32 @@ public class CarPane extends Pane{
     protected Timeline animation ; 
     
     
+    public void setSpeed(double speed) {
+	if (speed <= 100)
+            animation.play();
+           animation.setRate(speed);
+	}
     
     
+
     public CarPane(){
-        x=0;
-        y=120;
-        
-        
+       
+        y=40;
+          animation = new Timeline(
+            new KeyFrame(Duration.millis(500),e->MoveCar())
+        );
+         
+        animation.setCycleCount(Timeline.INDEFINITE);
+	;
+
+            paintCar();
+        }
+    
+    
+        public CarPane(int a ,int b){
+       
+        x=a;
+        y=b;
           animation = new Timeline(
             new KeyFrame(Duration.millis(500),e->MoveCar())
         );
@@ -37,15 +57,15 @@ public class CarPane extends Pane{
         getChildren().clear();
        //Dessiner les roues
        Circle circle1 = new Circle(x+15, y-5,5);
-       circle1.setFill(Color.BLACK);
-       circle1.setStroke(Color.BLACK);
+       circle1.setFill(Paint.valueOf("#1f212d"));
+       circle1.setStroke(Paint.valueOf("#2ea3dd"));
        Circle circle2 = new Circle(x+35, y-5,5);
-       circle2.setFill(Color.BLACK);
-       circle2.setStroke(Color.BLACK);
+       circle2.setFill(Paint.valueOf("#1f212d"));
+       circle2.setStroke(Paint.valueOf("#2ea3dd"));
        //Dessiner rectangle
        Rectangle rectangle = new Rectangle(x,y-20,50,10);
-        rectangle.setFill(Color.BLACK);
-        rectangle.setStroke(Color.BLACK);
+        rectangle.setFill(Paint.valueOf("#1f212d"));
+        rectangle.setStroke(Paint.valueOf("#2ea3dd"));
        //Dessiner polygon
        Polygon polygon = new Polygon();
        polygon.getPoints().addAll(new Double[]{x+10,y-20,x+20,y-30,x+30,y-30,x+40,y-20});
@@ -56,23 +76,37 @@ public class CarPane extends Pane{
     private void MoveCar(){
      if (x <= getWidth())
      {
-	x++;
+	x=x+8;
      }	
      else{
 	x = 0;}
         paintCar();
     }
     
-    public void Pause(){
+    public void pause(){
         animation.pause();
     }
     
-    public void Start(){
+    public void play(){
         animation.play();
     }
     
     public void Increase(){
         animation.setRate(animation.getRate() + 1);
+    }
+    
+    public void Jump(){
+        y=y-50;
+           new java.util.Timer().schedule( 
+        new java.util.TimerTask() {
+            @Override
+            public void run() {
+              y=120;
+            }
+        }, 
+       500
+);
+        
     }
     
     public void Decrease(){
